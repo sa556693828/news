@@ -1,5 +1,3 @@
-import ViewCard from "../components/Card/ViewCard";
-
 export default function Report() {
   return (
     <div className="flex h-[100vh] w-full flex-col items-center gap-10 p-10">
