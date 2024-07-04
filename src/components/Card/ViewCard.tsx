@@ -12,33 +12,41 @@ import LinearButton from "../Button/LinearButton";
 //from-greenF to-greenT
 //from-blueF to-blueT
 //from-redF to-redT
-
-export default function ViewCard(props: {
+interface IViewCard {
   title: string;
   content: string;
   color: "green" | "blue" | "red";
   onClick?: () => void;
   data?: any;
-}) {
+  className?: string;
+}
+
+export default function ViewCard({
+  title,
+  content,
+  color,
+  onClick,
+  className,
+}: IViewCard) {
   return (
     <div
-      className={`h-full bg-gradient-to-r from-${props?.color}F to-${props?.color}T pb-[2px] transition-all`}
+      className={`h-full bg-gradient-to-r from-${color}F to-${color}T pb-[2px] transition-all ${className}`}
     >
       <div className="flex h-full w-full flex-col gap-14 bg-[#1E1E1E] p-5 shadow-greenLi xl:p-10">
         <div
-          className={`bg-gradient-to-r from-${props?.color}F to-${props?.color}T bg-clip-text text-3xl font-bold text-transparent`}
+          className={`bg-gradient-to-r from-${color}F to-${color}T bg-clip-text text-3xl font-bold text-transparent`}
         >
-          {props.title}
+          {title}
         </div>
 
-        <div className="flex-1 whitespace-pre-wrap">{props.content}</div>
-        <div className="">
-          <LinearButton color={props?.color} onClick={props.onClick}>
+        <div className="flex-1 whitespace-pre-wrap">{content}</div>
+        {onClick && (
+          <LinearButton color={color} onClick={onClick}>
             detail
           </LinearButton>
-        </div>
+        )}
       </div>
-      {/* <InputModal isOpen={isOpen} onClose={onClose} data={props?.data} /> */}
+      {/* <InputModal isOpen={isOpen} onClose={onClose} data={data} /> */}
     </div>
   );
 }
