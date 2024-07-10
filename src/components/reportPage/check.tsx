@@ -9,6 +9,7 @@ interface KeyObject {
 }
 
 export default function Check({ data }: { data: any }) {
+  console.log(data);
   const keyConfig: { [key: string]: KeyObject } = {
     _id: { name: "編號", w: 0 },
     日期: { name: "日期", w: 150 },
@@ -112,7 +113,7 @@ export default function Check({ data }: { data: any }) {
             <div
               className={cn(
                 "text-center",
-                record[key] < 0 ? "text-dataR" : "text-dataG",
+                record[key] > 0 ? "text-dataR" : "text-dataG",
               )}
             >
               {Number(Number(text).toFixed(2))}
@@ -166,11 +167,7 @@ export default function Check({ data }: { data: any }) {
             </div>
           );
         }
-        if (
-          key === "外資期貨未平倉增減(口)" ||
-          key === "外資選擇權買權未平倉(億)" ||
-          key === "外資選擇權賣權未平倉(億)"
-        ) {
+        if (key === "外資期貨未平倉增減(口)") {
           return (
             <div
               className={cn(
@@ -188,6 +185,42 @@ export default function Check({ data }: { data: any }) {
             </div>
           );
         }
+        if (key === "外資選擇權買權未平倉(億)") {
+          return (
+            <div
+              className={cn(
+                "flex h-full w-full items-center justify-center",
+                value > 1
+                  ? "text-dataR bg-dataBR"
+                  : value < -1
+                    ? "text-dataG bg-dataBG"
+                    : value < 0
+                      ? "text-dataR"
+                      : "",
+              )}
+            >
+              {value ? value.toFixed(3) : "-"}
+            </div>
+          );
+        }
+        if (key === "外資選擇權賣權未平倉(億)") {
+          return (
+            <div
+              className={cn(
+                "flex h-full w-full items-center justify-center",
+                value > 1
+                  ? "text-dataG bg-dataBG"
+                  : value < -1
+                    ? "text-dataR bg-dataBR"
+                    : value < 0
+                      ? "text-dataR"
+                      : "",
+              )}
+            >
+              {value ? value.toFixed(3) : "-"}
+            </div>
+          );
+        }
         if (key === "選擇權未平倉總和(億)") {
           return (
             <div
@@ -199,7 +232,7 @@ export default function Check({ data }: { data: any }) {
                     ? "text-dataG bg-dataBG"
                     : value < 0
                       ? "text-dataR"
-                      : "text-dataG",
+                      : "",
               )}
             >
               {value ? value.toFixed(3) : "-"}
@@ -217,7 +250,7 @@ export default function Check({ data }: { data: any }) {
                     ? "text-dataG bg-dataBG"
                     : value < 0
                       ? "text-dataR"
-                      : "text-dataG",
+                      : "",
               )}
             >
               {value ? value.toFixed(3) : "-"}
@@ -229,7 +262,9 @@ export default function Check({ data }: { data: any }) {
             <div
               className={cn(
                 "flex h-full w-full items-center justify-center",
-                -1 <= value && value <= 1 ? "yellow-background" : "text-dataR",
+                -1 <= value && value <= 1
+                  ? "bg-dataBY text-dataBlack"
+                  : "text-dataR",
               )}
             >
               {value ? value.toFixed(3) : "-"}

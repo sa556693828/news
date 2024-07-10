@@ -1,4 +1,3 @@
-import img from "../assets/image2.jpeg";
 import ViewCard from "../components/Card/ViewCard";
 export default function Agent() {
   const handleImageClick = () => {
@@ -6,12 +5,12 @@ export default function Agent() {
   };
 
   return (
-    <div className="flex h-[100vh] w-full flex-col items-center gap-10 p-10">
+    <div className="flex h-full min-h-[100vh] w-full flex-col items-center gap-10 p-10">
       <h1 className="text-5xl">AI盤中即時監控</h1>
       <img
-        src={img}
+        src="./mid.png"
         alt="AI盤中即時監控"
-        className="hover:shadow-3xl w-1/2 cursor-pointer rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105 hover:brightness-110 hover:grayscale-0"
+        className="hover:shadow-3xl aspect-auto w-4/5 cursor-pointer rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105 hover:brightness-110 hover:grayscale-0 lg:w-1/3"
         onClick={() => handleImageClick()}
       />
       <ViewCard title="新聞" color="red" content="" className="w-full" />

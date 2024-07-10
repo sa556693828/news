@@ -27,6 +27,8 @@ export default {
         dataG: "#06A10D",
         dataBR: "#F8D4D4",
         dataBG: "#C0F3C0",
+        dataBY: "#D6D663",
+        dataBlack: "#1D1B1B",
       },
       backgroundImage: {
         rainbow:
