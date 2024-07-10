@@ -23,6 +23,10 @@ export default {
         yellowF: "#CF9500",
         yellowT: "#FFDC81",
         icon: "#949494",
+        dataR: "#F11010",
+        dataG: "#06A10D",
+        dataBR: "#F8D4D4",
+        dataBG: "#C0F3C0",
       },
       backgroundImage: {
         rainbow:
