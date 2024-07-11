@@ -41,24 +41,33 @@ export default function InTime() {
         <>
           <div className="h-full bg-gradient-to-r from-blueF to-blueT pb-[2px] transition-all">
             <div className="flex h-full w-full flex-col gap-10 bg-[#1E1E1E] px-10 py-6 shadow-greenLi xl:p-10">
-              <div
-                className={`bg-gradient-to-r from-blueF to-blueT bg-clip-text text-3xl font-bold text-transparent`}
-              >
-                {data?.Title}
+              <div className="cursor-pointer bg-gradient-to-r from-blueF to-blueT bg-clip-text text-3xl font-bold text-transparent hover:opacity-80">
+                <a href={data?.URL} target="_blank">
+                  {data?.Title}
+                </a>
               </div>
             </div>
           </div>
           <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-3">
             <ViewCard title="樂觀" color="blue" content="" className="w-full">
-              <TfiFaceSmile color="#4285F4" size={50} />
+              <div className="flex items-center gap-10">
+                <TfiFaceSmile color="#4285F4" size={50} />
+                <span className="text-lg">{data?.Scores.Optimistic} %</span>
+              </div>
               <Progress color="blue" value={data?.Scores.Optimistic} />
             </ViewCard>
             <ViewCard title="中立" color="red" content="" className="w-full">
-              <PiSmileyMeh color="#EA4335" size={50} />
+              <div className="flex items-center gap-10">
+                <PiSmileyMeh color="#EA4335" size={50} />
+                <span className="text-lg">{data?.Scores.Neutral} %</span>
+              </div>
               <Progress color="red" value={data?.Scores.Neutral} />
             </ViewCard>
             <ViewCard title="悲觀" color="green" content="" className="w-full">
-              <FaRegFaceSadCry color="#34A853" size={50} />
+              <div className="flex items-center gap-10">
+                <FaRegFaceSadCry color="#34A853" size={50} />
+                <span className="text-lg">{data?.Scores.Pessimistic} %</span>
+              </div>
               <Progress color="green" value={data?.Scores.Pessimistic} />
             </ViewCard>
           </div>
