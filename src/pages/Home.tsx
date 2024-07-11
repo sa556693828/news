@@ -8,7 +8,7 @@ function Home() {
   };
   return (
     <div className="flex h-[100vh] w-full flex-col items-center gap-10 p-10">
-      <h1 className="text-5xl">LOGO</h1>
+      <img src="./logo.png" className="w-full lg:w-4/5" />
       <div className="grid w-full grid-cols-1 gap-10 lg:grid-cols-2">
         <ViewCard
           title="AI盤前籌碼報告"

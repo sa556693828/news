@@ -9,7 +9,6 @@ export default function Report() {
   const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
   const url = "http://140.113.87.82:5004/api/data";
-
   // 使用 useSWR 获取数据
   const { data, error, isLoading } = useSWR(url, fetcher);
   const view = () => {

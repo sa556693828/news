@@ -73,7 +73,7 @@ export default function Agent() {
       }
     };
   }, []);
-
+  console.log(data);
   return (
     <div className="relative flex h-full min-h-[100vh] w-full flex-col items-center gap-10 p-10">
       <div className="relative flex w-full justify-start">
