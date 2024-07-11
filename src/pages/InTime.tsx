@@ -5,6 +5,8 @@ import { Progress } from "../components/ui/progress";
 import { TfiFaceSmile } from "react-icons/tfi";
 import { PiSmileyMeh } from "react-icons/pi";
 import { FaRegFaceSadCry } from "react-icons/fa6";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 export interface DataType {
   Scores: { Neutral: number; Optimistic: number; Pessimistic: number };
@@ -22,11 +24,12 @@ export interface DataType {
 }
 
 export default function InTime() {
+  const navigate = useNavigate();
   const fetcher = (url: string) =>
     axios.get(url).then((res) => res.data as DataType);
   const url = "http://140.113.87.82:5014/api/data";
   const { data, error, isLoading } = useSWR(url, fetcher);
-
+  console.log(data);
   const view = () => {
     if (error) {
       return <div>error</div>;
@@ -65,7 +68,16 @@ export default function InTime() {
   };
   return (
     <div className="flex h-full min-h-[100vh] w-full flex-col items-center gap-10 p-10">
-      <h1 className="text-5xl">AI盤中即時監控</h1>
+      <div className="relative flex w-full justify-start">
+        <IoArrowBackOutline
+          className="left-0 top-0 cursor-pointer"
+          size={30}
+          onClick={() => navigate(-1)}
+        />
+      </div>
+      <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl lg:text-5xl">
+        AI盤中即時監控
+      </h1>
       {view()}
     </div>
   );

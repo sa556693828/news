@@ -1,7 +1,7 @@
 import axios from "axios";
 import useSWR from "swr";
 import { useNavigate } from "react-router-dom";
-import { IoPlay } from "react-icons/io5";
+import { IoArrowBackOutline, IoPlay } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import { IoPause } from "react-icons/io5";
 
@@ -44,13 +44,13 @@ export default function Agent() {
 
   const view = () => {
     if (error) {
-      return <div>Error loading audio</div>;
+      return;
     }
     if (isLoading) {
-      return <div>Loading...</div>;
+      return;
     } else {
       return (
-        <audio ref={audioRef} controls autoPlay>
+        <audio ref={audioRef} controls autoPlay className="hidden">
           {/* <source src="/speech.mp3" type="audio/mp3" /> */}
           <source src={data?.audio_file} type="audio/mp3" />
           Your browser does not support the audio element.
@@ -76,16 +76,23 @@ export default function Agent() {
 
   return (
     <div className="relative flex h-full min-h-[100vh] w-full flex-col items-center gap-10 p-10">
-      <h1 className="text-5xl">AI盤中即時監控</h1>
+      <div className="relative flex w-full justify-start">
+        <IoArrowBackOutline
+          className="left-0 top-0 cursor-pointer"
+          size={30}
+          onClick={() => navigate(-1)}
+        />
+      </div>
+      <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl lg:text-5xl">
+        AI盤中即時監控
+      </h1>
       <img
-        src="./mid.png"
+        src="./mid.svg"
         alt="AI盤中即時監控"
-        className="hover:shadow-3xl aspect-auto w-4/5 cursor-pointer rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105 hover:brightness-110 hover:grayscale-0 lg:w-1/3"
+        className="hover:shadow-3xl aspect-auto w-full cursor-pointer rounded-xl pt-10 transition-transform duration-300 hover:scale-105 hover:brightness-110 hover:grayscale-0 lg:w-1/3 lg:pt-0"
         onClick={() => handleImageClick("/in-time")}
       />
 
-      <button onClick={playAudio}>Play</button>
-      <button onClick={pauseAudio}>Pause</button>
       {view()}
       {isPlaying ? (
         <IoPause

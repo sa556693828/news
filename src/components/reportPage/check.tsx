@@ -125,7 +125,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "text-center",
+                "font-digital text-center",
                 record[key] > 0 ? "text-dataR" : "text-dataG",
               )}
             >
@@ -137,7 +137,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "h-full w-full items-center justify-center pt-4 text-center leading-none",
+                "font-digital h-full w-full items-center justify-center pt-4 text-center leading-none",
                 value > 100
                   ? "bg-dataBR text-dataR"
                   : value < -100
@@ -155,7 +155,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 value < 0 ? "text-dataR" : "",
               )}
             >
@@ -172,7 +172,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 value < 0 ? "text-dataR" : "",
               )}
             >
@@ -184,7 +184,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 value > 3000
                   ? "bg-dataBR text-dataR"
                   : value < -3000
@@ -202,7 +202,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 value > 1
                   ? "bg-dataBR text-dataR"
                   : value < -1
@@ -220,7 +220,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 value > 1
                   ? "bg-dataBG text-dataG"
                   : value < -1
@@ -238,7 +238,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 value >= data.top10Percent
                   ? "bg-dataBR text-dataR"
                   : value <= data.bottom10Percent
@@ -256,7 +256,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 value >= data.top10Percent_opsum
                   ? "bg-dataBR text-dataR"
                   : value <= data.bottom10Percent_opsum
@@ -274,7 +274,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 -1 <= value && value <= 1
                   ? "bg-dataBY text-dataBlack"
                   : "text-dataR",
@@ -288,7 +288,7 @@ export default function Check({ data }: { data: any }) {
           return (
             <div
               className={cn(
-                "flex h-full w-full items-center justify-center",
+                "font-digital flex h-full w-full items-center justify-center",
                 value > 2 && "bg-dataBR text-dataR",
               )}
             >
@@ -296,9 +296,12 @@ export default function Check({ data }: { data: any }) {
             </div>
           );
         }
+        if (key === "日期") {
+          return <div className="text-center">{text}</div>;
+        }
         return text ? (
-          <div className="text-center">
-            {key === "日期" ? text : Number(Number(text).toFixed(2))}
+          <div className="font-digital text-center">
+            {Number(Number(text).toFixed(2))}
           </div>
         ) : (
           "-"

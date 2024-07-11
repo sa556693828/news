@@ -38,6 +38,9 @@ const config = {
         dataBY: "#D6D663",
         dataBlack: "#1D1B1B",
       },
+      fontFamily: {
+        digital: ["Digital Numbers", "sans-serif"],
+      },
       backgroundImage: {
         rainbow:
           "linear-gradient(90deg, #00FFB0, #CCFF00, #FBBC05, #E92126, #9747FF, #4285F4)",
