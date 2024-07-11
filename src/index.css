@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 html,
 body {
   font-weight: 600;
@@ -8,6 +9,7 @@ body {
   margin: 0;
   font-family:
     'Chakra Petch',
+    'Digital Numbers',
     'Noto Sans TC',
     -apple-system,
     BlinkMacSystemFont,

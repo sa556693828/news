@@ -1,7 +1,8 @@
 import { ConfigProvider, Table, TableProps } from "antd";
 import { cn } from "../../lib/utils";
-import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
+import { IoPlay } from "react-icons/io5";
+import { IoPause } from "react-icons/io5";
+import { useEffect, useRef, useState } from "react";
 
 interface KeyObject {
   name: string;
@@ -9,7 +10,19 @@ interface KeyObject {
 }
 
 export default function Check({ data }: { data: any }) {
-  console.log(data);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const playAudio = () => {
+    audioRef.current?.play();
+    setIsPlaying(true);
+  };
+
+  const pauseAudio = () => {
+    audioRef.current?.pause();
+    setIsPlaying(false);
+  };
+
   const keyConfig: { [key: string]: KeyObject } = {
     _id: { name: "編號", w: 0 },
     日期: { name: "日期", w: 150 },
@@ -23,7 +36,7 @@ export default function Check({ data }: { data: any }) {
     "自營(億元)": { name: "自營商(億元)", w: 150 },
     "融資(億元)": { name: "融資(億元)", w: 150 },
     "融資增減(億元)": { name: "融資增減(億元)", w: 100 },
-    "融券(張張)": { name: "融券(張張)", w: 150 },
+    "融券(張張)": { name: "融券(張)", w: 150 },
     "融券增減(張)": { name: "融券增減(張)", w: 100 },
     "外資期貨未平倉多方(口)": { name: "外資期貨未平倉多方(口)", w: 200 },
     "外資期貨未平倉空方(口)": { name: "外資期貨未平倉空方(口)", w: 200 },
@@ -100,8 +113,8 @@ export default function Check({ data }: { data: any }) {
               className={cn(
                 "flex h-full w-full items-center justify-center",
                 record[key] === ">"
-                  ? "text-dataR bg-dataBR"
-                  : "text-dataG bg-dataBG",
+                  ? "bg-dataBR text-dataR"
+                  : "bg-dataBG text-dataG",
               )}
             >
               {text}
@@ -126,9 +139,9 @@ export default function Check({ data }: { data: any }) {
               className={cn(
                 "h-full w-full items-center justify-center pt-4 text-center leading-none",
                 value > 100
-                  ? "text-dataR bg-dataBR"
+                  ? "bg-dataBR text-dataR"
                   : value < -100
-                    ? "text-dataG bg-dataBG"
+                    ? "bg-dataBG text-dataG"
                     : value < 0
                       ? "text-dataR"
                       : "text-dataG",
@@ -173,9 +186,9 @@ export default function Check({ data }: { data: any }) {
               className={cn(
                 "flex h-full w-full items-center justify-center",
                 value > 3000
-                  ? "text-dataR bg-dataBR"
+                  ? "bg-dataBR text-dataR"
                   : value < -3000
-                    ? "text-dataG bg-dataBG"
+                    ? "bg-dataBG text-dataG"
                     : value < 0
                       ? "text-dataR"
                       : "text-dataG",
@@ -191,9 +204,9 @@ export default function Check({ data }: { data: any }) {
               className={cn(
                 "flex h-full w-full items-center justify-center",
                 value > 1
-                  ? "text-dataR bg-dataBR"
+                  ? "bg-dataBR text-dataR"
                   : value < -1
-                    ? "text-dataG bg-dataBG"
+                    ? "bg-dataBG text-dataG"
                     : value < 0
                       ? "text-dataR"
                       : "",
@@ -209,9 +222,9 @@ export default function Check({ data }: { data: any }) {
               className={cn(
                 "flex h-full w-full items-center justify-center",
                 value > 1
-                  ? "text-dataG bg-dataBG"
+                  ? "bg-dataBG text-dataG"
                   : value < -1
-                    ? "text-dataR bg-dataBR"
+                    ? "bg-dataBR text-dataR"
                     : value < 0
                       ? "text-dataR"
                       : "",
@@ -227,9 +240,9 @@ export default function Check({ data }: { data: any }) {
               className={cn(
                 "flex h-full w-full items-center justify-center",
                 value >= data.top10Percent
-                  ? "text-dataR bg-dataBR"
+                  ? "bg-dataBR text-dataR"
                   : value <= data.bottom10Percent
-                    ? "text-dataG bg-dataBG"
+                    ? "bg-dataBG text-dataG"
                     : value < 0
                       ? "text-dataR"
                       : "",
@@ -245,9 +258,9 @@ export default function Check({ data }: { data: any }) {
               className={cn(
                 "flex h-full w-full items-center justify-center",
                 value >= data.top10Percent_opsum
-                  ? "text-dataR bg-dataBR"
+                  ? "bg-dataBR text-dataR"
                   : value <= data.bottom10Percent_opsum
-                    ? "text-dataG bg-dataBG"
+                    ? "bg-dataBG text-dataG"
                     : value < 0
                       ? "text-dataR"
                       : "",
@@ -276,7 +289,7 @@ export default function Check({ data }: { data: any }) {
             <div
               className={cn(
                 "flex h-full w-full items-center justify-center",
-                value > 2 && "text-dataR bg-dataBR",
+                value > 2 && "bg-dataBR text-dataR",
               )}
             >
               {text}
@@ -293,9 +306,23 @@ export default function Check({ data }: { data: any }) {
       },
     };
   });
+  useEffect(() => {
+    if (!audioRef.current) return;
+    audioRef.current.volume = 0.5;
+    audioRef.current.addEventListener("play", () => setIsPlaying(true));
+    audioRef.current.addEventListener("pause", () => setIsPlaying(false));
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("play", () => setIsPlaying(true));
+        audioRef.current.removeEventListener("pause", () =>
+          setIsPlaying(false),
+        );
+      }
+    };
+  }, []);
 
   return (
-    <div className="flex w-full flex-col items-center gap-10 pt-4">
+    <div className="relative flex w-full flex-col items-center gap-10 pt-4">
       <ConfigProvider
         theme={{
           components: {
@@ -323,123 +350,77 @@ export default function Check({ data }: { data: any }) {
         <div
           className={cn(
             "mx-auto flex h-20 w-full items-center justify-center border border-white",
-            data.data[0]["多"] > 0
+            data.night_future > 0
               ? "bg-dataBR text-dataR"
               : "bg-dataBG text-dataG",
           )}
         >
-          多空淨單 :
+          多空淨單 : {data.night_future}
         </div>
       </div>
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex w-full flex-col items-center gap-2">
           <span className="text-2xl">外資買賣超</span>
-          <div
-            className="flex aspect-square w-full items-center justify-center bg-contain bg-top bg-no-repeat"
-            style={{
-              // backgroundImage: `url(${data.plot1 ? data.plot1.url : "./sample.png"})`,
-              backgroundImage: `url(./sample.png)`,
-            }}
-          >
-            {/* <img
-              src={data.plot1 ? data.plot1.url : "./sample.png"}
-              alt=""
-              className="h-full w-full"
-            /> */}
+          <div className="flex w-full items-center justify-center bg-contain bg-top bg-no-repeat">
+            <img src={data?.plot1} alt="plot1" className="h-full w-full" />
           </div>
         </div>
         <div className="flex w-full flex-col items-center gap-2">
           <span className="text-2xl">融資融券變化</span>
-          <div
-            className="flex aspect-square w-full items-center justify-center bg-contain bg-top bg-no-repeat"
-            style={{
-              // backgroundImage: `url(${data.plot1 ? data.plot2.url : "./sample.png"})`,
-              backgroundImage: `url(./sample.png)`,
-            }}
-          >
-            {/* <img
-              src={data.plot1 ? data.plot1.url : "./sample.png"}
-              alt=""
-              className="h-full w-full"
-            /> */}
+          <div className="flex w-full items-center justify-center bg-contain bg-top bg-no-repeat">
+            <img src={data?.plot2} alt="plot2" className="h-full w-full" />
           </div>
         </div>
       </div>
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex w-full flex-col items-center gap-2">
           <span className="text-2xl">外資期貨部份</span>
-          <div
-            className="flex aspect-square w-full items-center justify-center bg-contain bg-top bg-no-repeat"
-            style={{
-              // backgroundImage: `url(${data.plot3 ? data.plot3.url : "./sample.png"})`,
-              backgroundImage: `url(./sample.png)`,
-            }}
-          >
-            {/* <img
-              src={data.plot1 ? data.plot1.url : "./sample.png"}
-              alt=""
-              className="h-full w-full"
-            /> */}
+          <div className="flex w-full items-center justify-center bg-contain bg-top bg-no-repeat">
+            <img src={data?.plot3} alt="plot3" className="h-full w-full" />
           </div>
         </div>
         <div className="flex w-full flex-col items-center gap-2">
           <span className="text-2xl">外資選擇選</span>
-          <div
-            className="flex aspect-square w-full items-center justify-center bg-contain bg-top bg-no-repeat"
-            style={{
-              // backgroundImage: `url(${data.plot4 ? data.plot4.url : "./sample.png"})`,
-              backgroundImage: `url(./sample.png)`,
-            }}
-          >
-            {/* <img
-              src={data.plot4 ? data.plot4.url : "./sample.png"}
-              alt=""
-              className="h-full w-full"
-            /> */}
+          <div className="flex w-full items-center justify-center bg-contain bg-top bg-no-repeat">
+            <img src={data?.plot4} alt="plot4" className="h-full w-full" />
           </div>
         </div>
       </div>
-      <div className="flex w-full flex-col items-center gap-2">
-        <span className="text-2xl">播放音訊</span>
-        <AudioPlayer
-          autoPlay
-          volume={0.5}
-          src="./speech.mp3"
-          onPlay={() => console.log("onPlay")}
-          // other props here
+      <audio ref={audioRef} controls autoPlay className="hidden">
+        {/* <source src="/speech.mp3" type="audio/mp3" /> */}
+        <source src={data?.audio_file} type="audio/mp3" />
+        Your browser does not support the audio element.
+      </audio>
+      {isPlaying ? (
+        <IoPause
+          onClick={pauseAudio}
+          className="fixed bottom-10 right-10 flex size-16 cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-greenF to-greenT py-3 pl-[2px] text-black/80"
         />
-      </div>
+      ) : (
+        <IoPlay
+          onClick={playAudio}
+          className="fixed bottom-10 right-10 flex size-16 cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-greenF to-greenT py-3 pl-2 text-black/80"
+        />
+      )}
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex w-full flex-col items-center gap-2">
           <span className="text-2xl">多指標</span>
-          <div
-            className="flex aspect-square w-full items-center justify-center bg-contain bg-top bg-no-repeat"
-            style={{
-              // backgroundImage: `url(${data.gauge_long ? data.gauge_long.url : "./sample.png"})`,
-              backgroundImage: `url(./sample.png)`,
-            }}
-          >
-            {/* <img
-              src={data.plot1 ? data.gauge_long.url : "./sample.png"}
-              alt=""
+          <div className="flex w-full items-center justify-center bg-contain bg-top bg-no-repeat">
+            <img
+              src={data?.gauge_long}
+              alt="gauge_long"
               className="h-full w-full"
-            /> */}
+            />
           </div>
         </div>
         <div className="flex w-full flex-col items-center gap-2">
           <span className="text-2xl">空指標</span>
-          <div
-            className="flex aspect-square w-full items-center justify-center bg-contain bg-top bg-no-repeat"
-            style={{
-              // backgroundImage: `url(${data.gauge_short ? data.gauge_short.url : "./sample.png"})`,
-              backgroundImage: `url(./sample.png)`,
-            }}
-          >
-            {/* <img
-              src={data.gauge_short ? data.gauge_short.url : "./sample.png"}
-              alt=""
+          <div className="flex w-full items-center justify-center bg-contain bg-top bg-no-repeat">
+            <img
+              src={data?.gauge_short}
+              alt="gauge_short"
               className="h-full w-full"
-            /> */}
+            />
           </div>
         </div>
       </div>
