@@ -21,6 +21,7 @@ export default function Report() {
       return <Check data={data} />;
     }
   };
+  console.log(data);
   return (
     <div className="flex h-full min-h-[100vh] w-full flex-col items-center gap-10 p-10">
       <div className="relative flex w-full justify-start">
