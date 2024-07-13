@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { IoArrowBackOutline, IoPlay } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import { IoPause } from "react-icons/io5";
+import { cn } from "../lib/utils";
 
 export interface DataType {
   Scores: { Neutral: number; Optimistic: number; Pessimistic: number };
@@ -25,6 +26,7 @@ export default function Agent() {
   const handleImageClick = (path: string) => {
     navigate(path);
   };
+  const [isShow, setIsShow] = useState(false);
   const fetcher = (url: string) =>
     axios.get(url).then((res) => res.data as DataType);
   const url = "http://140.113.87.82:5014/api/data";
@@ -52,12 +54,17 @@ export default function Agent() {
       return (
         <audio ref={audioRef} controls autoPlay className="hidden">
           {/* <source src="/speech.mp3" type="audio/mp3" /> */}
-          <source src={data?.audio_file} type="audio/mp3" />
+          <source src={data?.loging_audio} type="audio/mp3" />
           Your browser does not support the audio element.
         </audio>
       );
     }
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setIsShow(true);
+    }, 3000);
+  }, []);
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -73,7 +80,6 @@ export default function Agent() {
       }
     };
   }, []);
-  console.log(data);
   return (
     <div className="relative flex h-full min-h-[100vh] w-full flex-col items-center gap-10 p-10">
       <div className="relative flex w-full justify-start">
@@ -94,6 +100,17 @@ export default function Agent() {
       />
 
       {view()}
+      {data?.bot_response && (
+        <div
+          className={cn(
+            "absolute bottom-10 left-1/2 -translate-x-1/2 rounded-xl bg-white p-5 text-black shadow-2xl transition-opacity duration-500 ease-in-out",
+            isShow ? "opacity-100" : "opacity-0",
+          )}
+        >
+          <p>{data.bot_response}</p>
+        </div>
+      )}
+
       {isPlaying ? (
         <IoPause
           onClick={pauseAudio}

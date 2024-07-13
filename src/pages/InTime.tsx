@@ -5,8 +5,10 @@ import { Progress } from "../components/ui/progress";
 import { TfiFaceSmile } from "react-icons/tfi";
 import { PiSmileyMeh } from "react-icons/pi";
 import { FaRegFaceSadCry } from "react-icons/fa6";
-import { IoArrowBackOutline } from "react-icons/io5";
+import { IoArrowBackOutline, IoPlay } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { IoPause } from "react-icons/io5";
+import { useEffect, useRef, useState } from "react";
 
 export interface DataType {
   Scores: { Neutral: number; Optimistic: number; Pessimistic: number };
@@ -29,7 +31,31 @@ export default function InTime() {
     axios.get(url).then((res) => res.data as DataType);
   const url = "http://140.113.87.82:5014/api/data";
   const { data, error, isLoading } = useSWR(url, fetcher);
-  console.log(data);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playAudio = () => {
+    audioRef.current?.play();
+    setIsPlaying(true);
+  };
+
+  const pauseAudio = () => {
+    audioRef.current?.pause();
+    setIsPlaying(false);
+  };
+  useEffect(() => {
+    if (!audioRef.current) return;
+    audioRef.current.volume = 0.5;
+    audioRef.current.addEventListener("play", () => setIsPlaying(true));
+    audioRef.current.addEventListener("pause", () => setIsPlaying(false));
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("play", () => setIsPlaying(true));
+        audioRef.current.removeEventListener("pause", () =>
+          setIsPlaying(false),
+        );
+      }
+    };
+  }, []);
   const view = () => {
     if (error) {
       return <div>error</div>;
@@ -70,6 +96,11 @@ export default function InTime() {
               </div>
               <Progress color="green" value={data?.Scores.Pessimistic} />
             </ViewCard>
+            <audio ref={audioRef} controls autoPlay className="hidden">
+              {/* <source src="/speech.mp3" type="audio/mp3" /> */}
+              <source src={data?.audio_file} type="audio/mp3" />
+              Your browser does not support the audio element.
+            </audio>
           </div>
         </>
       );
@@ -88,6 +119,17 @@ export default function InTime() {
         AI盤中即時監控
       </h1>
       {view()}
+      {isPlaying ? (
+        <IoPause
+          onClick={pauseAudio}
+          className="fixed bottom-10 right-10 flex size-16 cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-greenF to-greenT py-3 pl-[2px] text-black/80"
+        />
+      ) : (
+        <IoPlay
+          onClick={playAudio}
+          className="fixed bottom-10 right-10 flex size-16 cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-greenF to-greenT py-3 pl-2 text-black/80"
+        />
+      )}
     </div>
   );
 }
