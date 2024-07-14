@@ -7,7 +7,7 @@ function Home() {
     navigate(path);
   };
   return (
-    <div className="flex h-[100vh] w-full flex-col items-center gap-10 p-10">
+    <div className="flex min-h-[100vh] w-full flex-col items-center gap-10 p-10">
       <img src="./logoWhite.png" className="w-full lg:size-[200px]" />
       <div className="grid w-full grid-cols-1 gap-10 lg:grid-cols-2">
         <ViewCard

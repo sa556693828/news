@@ -95,19 +95,18 @@ export default function Agent() {
       <img
         src="./mid.svg"
         alt="AI盤中即時監控"
-        className="hover:shadow-3xl aspect-auto w-full cursor-pointer rounded-xl pt-10 transition-transform duration-300 hover:scale-105 hover:brightness-110 hover:grayscale-0 lg:w-1/3 lg:pt-0"
+        className="hover:shadow-3xl aspect-auto w-full cursor-pointer rounded-xl pt-10 transition-transform duration-300 hover:scale-105 hover:brightness-110 hover:grayscale-0 md:w-2/3 lg:w-1/3 lg:pt-0"
         onClick={() => handleImageClick("/in-time")}
       />
 
       {view()}
       {data?.bot_response && (
-        <div
-          className={cn(
-            "absolute bottom-10 left-1/2 -translate-x-1/2 rounded-xl bg-white p-5 text-black shadow-2xl transition-opacity duration-500 ease-in-out",
-            isShow ? "opacity-100" : "opacity-0",
-          )}
-        >
-          <p>{data.bot_response}</p>
+        <div className="bottom-10 mx-4 h-fit bg-gradient-to-r from-greenF to-greenT pb-[2px] transition-all md:absolute">
+          <div className="flex h-full w-full flex-col gap-10 bg-[#1E1E1E] px-10 py-6 shadow-greenLi xl:p-10">
+            <div className="cursor-pointer bg-gradient-to-r from-greenF to-greenT bg-clip-text text-3xl font-bold text-transparent hover:opacity-80">
+              <p>{data.bot_response}</p>
+            </div>
+          </div>
         </div>
       )}
 
