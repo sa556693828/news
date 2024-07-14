@@ -101,7 +101,12 @@ export default function Agent() {
 
       {view()}
       {data?.bot_response && (
-        <div className="bottom-10 mx-4 h-fit bg-gradient-to-r from-greenF to-greenT pb-[2px] transition-all md:absolute">
+        <div
+          className={cn(
+            isShow ? "opacity-100" : "opacity-0",
+            "bottom-10 mx-4 h-fit bg-gradient-to-r from-greenF to-greenT pb-[2px] transition-opacity duration-500 ease-in-out md:absolute",
+          )}
+        >
           <div className="flex h-full w-full flex-col gap-10 bg-[#1E1E1E] px-10 py-6 shadow-greenLi xl:p-10">
             <div className="cursor-pointer bg-gradient-to-r from-greenF to-greenT bg-clip-text text-3xl font-bold text-transparent hover:opacity-80">
               <p>{data.bot_response}</p>
