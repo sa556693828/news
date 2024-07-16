@@ -12,7 +12,7 @@ interface KeyObject {
 export default function Check({ data }: { data: any }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-
+  console.log(data);
   const playAudio = () => {
     audioRef.current?.play();
     setIsPlaying(true);
@@ -101,7 +101,7 @@ export default function Check({ data }: { data: any }) {
       key: key,
       ellipsis: true,
       width: keyConfig[key].w,
-      className: "text-base h-14 px-4",
+      className: "text-base h- px-4",
       // sorter: filterKeys.includes(key)
       //   ? (a: any, b: any) => a[key] - b[key]
       //   : false,

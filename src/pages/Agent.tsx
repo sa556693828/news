@@ -65,9 +65,9 @@ export default function Agent() {
       setIsShow(true);
     }, 3000);
   }, []);
-
   useEffect(() => {
     if (!audioRef.current) return;
+    console.log("play audio data", data?.loging_audio);
     audioRef.current.volume = 0.5;
     audioRef.current.addEventListener("play", () => setIsPlaying(true));
     audioRef.current.addEventListener("pause", () => setIsPlaying(false));
@@ -108,7 +108,7 @@ export default function Agent() {
           )}
         >
           <div className="flex h-full w-full flex-col gap-10 bg-[#1E1E1E] px-10 py-6 shadow-greenLi xl:p-10">
-            <div className="cursor-pointer bg-gradient-to-r from-greenF to-greenT bg-clip-text text-3xl font-bold text-transparent hover:opacity-80">
+            <div className="bg-gradient-to-r from-greenF to-greenT bg-clip-text text-3xl font-bold text-transparent">
               <p>{data.bot_response}</p>
             </div>
           </div>
